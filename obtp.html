@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://unpkg.com/jsxapi@5.1.1/dist/jsxapi.js"></script>
+
+<style>
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+.top-left {
+  position: absolute;
+  font-family: "Arial";
+  font-weight: bold;
+  top: 8px;
+  left: 16px;
+  font-size: 25px;
+}
+
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 20px;
+  vertical-align:middle;
+}
+
+.top-right-images {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 4px; /* space between images */
+  padding: 10px; /* optional, for a little space from the edges */
+}
+
+.top-right-images img {
+  height: 50px; /* or whatever size you want */
+  width: auto;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 66%;
+  font-size: 80px;
+  font-family: "Arial";
+  transform: translate(-50%, -50%);
+}
+
+.lower-center {
+  position: absolute;
+  top: 60%;
+  left: 66%;
+  font-size: 30px;
+  font-family: "Arial";
+  transform: translate(-50%, -50%);
+}
+
+.obtp-image {
+  position: absolute;
+  top: 50%;
+  left: 33%;
+  transform: translate(-50%, -50%);
+}
+
+.obtp-idle-title {
+  position: absolute;
+  top: 65%;
+  left: 33%;
+  font-size: 32px;
+  font-family: "Arial";
+  transform: translate(-50%, -50%);
+}
+
+.obtp-idle-subtitle {
+  position: absolute;
+  top: 70%;
+  left: 33%;
+  font-size: 20px;
+  font-family: "Arial";
+  transform: translate(-50%, -50%);
+}
+
+.obtp-active-title {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  font-size: 50px;
+  font-family: "Arial";
+  transform: translate(0);
+}
+
+.obtp-active-organizer {
+  position: absolute;
+  top: 48%;
+  left: 20%;
+  font-size: 28px;
+  font-family: "Arial";
+  transform: translate(0);
+}
+
+.obtp-active-time {
+  position: absolute;
+  top: 53%;
+  left: 20%;
+  width: 300px;
+  font-size: 28px;
+  font-family: "Arial";
+  transform: translate(0);
+}
+
+.platform-image {
+  position: absolute;
+  top: 55%;
+  left: 60%;
+  font-size: 30px;
+  font-family: "Arial";
+  transform: translate(0);
+}
+
+.platform-image img {
+  width: 40px; /* adjust size as needed */
+  height: 40px;
+  margin-right: 10px; 
+}
+
+
+
+.obtp-active-futureMeetings {
+  position: absolute;
+  top: 60%;
+  left: 20%;
+  font-size: 20px;
+  font-family: "Arial";
+  transform: translate(0);
+}
+
+body {
+  background-color: black;
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+<video width="100%" height="100%" loop="true" autoplay="autoplay"  muted>
+  <source src="Oregon.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+  <div class="top-left"><span id="deviceName"></div>
+  <div class="obtp-image"><span id="calendarImage"><img src="CalendarIcon.png" alt="Calendar"></span></div>
+  <div class="obtp-idle-title"><span id="calendarTitle">Room available all day</span></div>
+  <div class="obtp-idle-subtitle"><span id="calendarSubtitle">Use the touch panel to book the room</span></div>
+  <div class="centered"><span id="time"></span></div>
+  <div class="lower-center"><span id="date"></span></div>
+  <div class="bottom-right"><span id="messageHelper"></span></div>
+  <div class="obtp-active-title"><span id="calendarActiveTitle"></span></div>
+  <div class="obtp-active-organizer"><span id="calendarActiveOrganizer"></span></div>
+  <div class="obtp-active-time"><span id="calendarActiveTime"></span></div>
+  <div class="obtp-active-futureMeetings"><span id="calendarActiveFutureMeetings"></span></div>
+  <div class="top-right-images"><span id="topRightPosition"></span></div>
+</div>
+
+<script type="text/javascript">
+    var timeElement = document.getElementById('time');
+    var dateElement = document.getElementById('date');
+    var deviceNameElement = document.getElementById('deviceName');
+    var topRightPositionElement = document.getElementById('topRightPosition');
+    var messageHelperElement = document.getElementById('messageHelper');
+    var calendarImageElement = document.getElementById('calendarImage');
+    var calendarTitleElement = document.getElementById('calendarTitle');
+    var calendarSubtitleElement = document.getElementById('calendarSubtitle');
+    var calendarActiveTitleElement = document.getElementById('calendarActiveTitle');
+    var calendarActiveOrganizerElement = document.getElementById('calendarActiveOrganizer');
+    var calendarActiveTimeElement = document.getElementById('calendarActiveTime');
+    var calendarActiveFutureMeetingsElement = document.getElementById('calendarActiveFutureMeetings');
+
+    messageHelperElement.textContent = "Loading video..."
+
+    window.onload = (event) => {
+        console.log("page is fully loaded");
+        messageHelperElement.textContent = ""
+    };
+
+
+    function clock() {
+        const nameOfMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        const nameOfDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+        const date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var strTime = convertTimeToAmPm(hours, minutes)
+        timeElement.textContent = strTime
+
+        var month = date.getMonth();
+        var dayOfWeek = date.getDay();
+        var day = date.getDate();
+        var strDate = nameOfDay[dayOfWeek] + ', ' + nameOfMonth[month] + ' ' + day;
+        dateElement.textContent = strDate;
+
+    }
+
+    async function connectToDevice() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const username = urlParams.get('username');
+        const password = urlParams.get('password');
+        const ipAddress = urlParams.get('ipAddress');
+
+        jsxapi
+            .connect(ipAddress, {
+                username: username,
+                password: password,
+            })
+            .on("error", (error) => {
+                // Handle connection issues and restore websocket if closed
+                if (error == "WebSocket closed unexpectedly" && connected) {
+                    // Only attempt to reconnect if previously connected
+                    console.log("WebSocket closed, reconnecting");
+                    connected = false;
+                    setTimeout(connectToDevice, 1000);
+                } else {
+                    if (error == undefined && !connected) {
+                        // Display error when failed to create initial connection
+                        console.log("Error Connecting to Device");
+                        deviceNameElement.textContent = "Error Connecting to Device";
+                    } else if (error == undefined && connected) {
+                        console.log(
+                            "JSXAPI Error [undefined] - taking no action until the WebSocket has been closed"
+                        );
+                    } else {
+                        console.error("Error", JSON.stringify(error));
+                        //status.innerHTML = `Error [${error}]`;
+                    }
+                }
+            })
+            .on("ready", async (xapi) => {
+                // Once connected, check for connected In-Room Navigators and then
+                // get initial sensor values and subscribe to changes there after
+                connected = true;
+                console.log(`Connected to Device`);
+                const broadcastName = await xapi.Status.SystemUnit.BroadcastName.get()
+                deviceNameElement.textContent = (broadcastName == "") ? 'Unknown' : broadcastName;
+
+                var booking1 = await xapi.Command.Bookings.List()
+                const jsonString = JSON.stringify(booking1);
+                console.log("json: " + jsonString);
+
+                xapi.Status.Time.SystemTime.get()
+                    .then ((currentTime) => {
+                        organizeBookings(currentTime, booking1);
+                    })
+
+                xapi.Event.Bookings.on((value) => {
+                    const jsonString2 = JSON.stringify(value)
+                    console.log("bookingUpdate: " + jsonString2);
+
+                    // check if any changes to the calendar have occured
+                    if (value.hasOwnProperty("BookingCreated") || value.hasOwnProperty("Deleted") || value.hasOwnProperty("BookingMoved") || value.hasOwnProperty("End") || value.hasOwnProperty("Updated")) {
+                        console.log("either created, deleted, bookingmoved, ended");
+                        xapi.Status.Time.SystemTime.get()
+                            .then ((currentTime) => {
+                                xapi.Command.Bookings.List()
+                                    .then ((booking5) => {
+                                        organizeBookings(currentTime, booking5);
+                            });
+                        })
+
+                    }
+                });
+
+                // Get airplay and miracast status
+                xapi.Status.Video.Input.AirPlay.Status.get()
+                    .then ((airplayStatus) => {
+                        xapi.Status.Video.Input.Miracast.Status.get()
+                            .then ((miracastStatus) => {
+                                displayAirplayMiracast(airplayStatus, miracastStatus)
+                            })
+                    })
+            })
+    }
+
+    function organizeBookings(currentTime, bookingList){
+        var currentBookingList = [];
+
+        if(!Array.isArray(bookingList.Booking)) {
+            // No meetings listed
+            currentBookingList = []
+        }else{
+            // run through each meeting to get the key details
+            for (const booking of bookingList.Booking) {
+                const jsonString = JSON.stringify(booking);
+                const endTime = new Date(booking.Time.EndTime);
+                const currentTimeFormatted = new Date(currentTime);
+                console.log("Current: " + currentTimeFormatted + "EndTime: " + endTime);
+                if(currentTimeFormatted < endTime){
+                    console.log("active meeting")
+                    const title = booking.Title;
+                    const organizer = booking.Organizer.FirstName;
+                    const startTime = booking.Time.StartTime
+                    const endTime = booking.Time.EndTime
+                    const meetingPlaform = booking.MeetingPlatform;
+                    const collectedBooking = [[title], [organizer], [startTime], [endTime], [meetingPlaform]];
+                    currentBookingList.push(collectedBooking)
+                }
+            }
+        }
+        console.log("currentBookingList: " + currentBookingList);
+        displayMeetingDetails(currentBookingList)
+    }
+
+    function displayMeetingDetails(currentBookingList){
+        console.log("displayMeetingDetails.length: " + currentBookingList.length)
+        if(currentBookingList.length != 0){
+            calendarImageElement.style.display = "none";
+            calendarTitleElement.style.display = "none";
+            calendarSubtitleElement.style.display = "none";
+
+            calendarActiveTitle.style.display = "inline";
+            calendarActiveOrganizer.style.display = "inline";
+            calendarActiveTime.style.display = "inline";
+            calendarActiveFutureMeetings.style.display = "inline";
+
+            const bookingTitle = currentBookingList[0][0]
+            const bookingOrganizer = currentBookingList[0][1]
+            const bookingStart = currentBookingList[0][2]
+            const bookingEnd = currentBookingList[0][3]
+            const meetingPlaform = currentBookingList[0][4]
+
+            calendarActiveTitle.textContent = bookingTitle;
+            calendarActiveOrganizer.textContent = "Organizer: " + bookingOrganizer;
+
+            var meetingPlatformIcon;
+            if(meetingPlaform == "Webex"){
+                meetingPlatformIcon = "webex.png"
+            }else if(meetingPlaform == "MicrosoftTeams"){
+                meetingPlatformIcon = "teams.png"
+            }else if(meetingPlaform == "Zoom"){
+                meetingPlatformIcon = "zoom.png"
+            }else if(meetingPlaform == "GoogleMeet"){
+                meetingPlatformIcon = "google.png"
+            }else{
+                meetingPlatformIcon = "none.png";
+            }
+
+            const startDate = new Date(bookingStart);
+            const endDate = new Date(bookingEnd);
+            let startHour = startDate.getHours();
+            let startMinute = startDate.getMinutes();
+            let endHour = endDate.getHours();
+            let endMinute = endDate.getMinutes();
+            let formattedStart = convertTimeToAmPm(startHour, startMinute)
+            let formattedEnd = convertTimeToAmPm(endHour, endMinute)
+            let meetingDuration = formattedStart + ' - ' + formattedEnd
+            calendarActiveTime.innerHTML = "<img width='28' height='28' src='./images/" + meetingPlatformIcon + "' alt='Unknown'>   " + meetingDuration
+
+            if (currentBookingList.length > 1) {
+                calendarActiveFutureMeetings.textContent = (currentBookingList.length - 1) + " more meeting today"
+            }else{
+                calendarActiveFutureMeetings.textContent = ""
+            }
+
+        }else{
+            calendarActiveTitle.style.display = "none";
+            calendarActiveOrganizer.style.display = "none";
+            calendarActiveTime.style.display = "none";
+            calendarActiveFutureMeetings.style.display = "none";
+
+            calendarImageElement.style.display = "inline";
+            calendarTitleElement.style.display = "inline";
+            calendarSubtitleElement.style.display = "inline";
+        }
+    }
+
+
+    function convertTimeToAmPm(hours, minutes) {
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime
+    }
+
+    function displayAirplayMiracast(airplayStatus, miracastStatus){
+        console.log("airplay: " + airplayStatus)
+        console.log("miracast: " + miracastStatus)
+        //topRightPositionElement
+        if (airplayStatus == "Active" && miracastStatus == "Started"){
+            topRightPositionElement.innerHTML = "<img src='airplayIcon.png' alt='Airplay'><img src='miracastIcon.png' alt='Miracast'>"
+        }else if (airplayStatus == "Active"){
+            topRightPositionElement.innerHTML = "<img src='airplayIcon.png' alt='Airplay'>"
+        }else if (miracastStatus == "Started"){
+            topRightPositionElement.innerHTML = "<img src='miracastIcon.png' alt='Miracast'>"
+        }
+    }
+
+
+    setInterval(clock, 1000);
+    connectToDevice();
+
+</script>
+</body>
+</html> 
