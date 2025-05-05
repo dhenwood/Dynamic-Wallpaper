@@ -35,3 +35,6 @@ Their are currently a few videos to select from, so by replacing the above comma
 * Fluid
 
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
+
+### Option 3 (customize)
+Download the obtp.html file and run it on a web server. Ensure the video files you wish to use are available. You will still need to perform Option 2 above to have the video device launch the web page, but with your onwn web servers address.
