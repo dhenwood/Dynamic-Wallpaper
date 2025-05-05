@@ -6,7 +6,6 @@ Turn your Cisco video device wallpaper from a static image to a rolling video.
 * [Introduction](https://github.com/dhenwood/Dynamic-Wallpaper#introduction)
 * [Video](https://github.com/dhenwood/Dynamic-Wallpaper#video)
 * [Setup](https://github.com/dhenwood/Dynamic-Wallpaper#setup)
-* [Examples](https://github.com/dhenwood/Dynamic-Wallpaper#examples)
 
 ![example](https://github.com/dhenwood/Dynamic-Wallpaper/blob/main/DynamicWallpaperExample.gif)
 
@@ -36,5 +35,5 @@ Their are currently a few videos to select from, so by replacing the above comma
 
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
 
-### Option 3 (customize)
-Download the obtp.html file and run it on a web server. Ensure the video files you wish to use are available. You will still need to perform Option 2 above to have the video device launch the web page, but with your onwn web servers address.
+### Option 3 (customized videos)
+Download the obtp.html file and run it on a web server. Ensure the video files you wish to use are available. You will still need to perform Option 2 above to have the video device launch the web page, but with your own web servers address.
