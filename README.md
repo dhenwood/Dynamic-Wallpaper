@@ -17,9 +17,9 @@ The capability to display a looped video is not a native RoomOS feature, but rat
 A short video of this in action can be found on [Vidcast](https://app.vidcast.io/share/23e1360f-2ef6-4fc5-a89c-9f4b5514f3e3)
 
 ## Setup
-In order to have the browser communicate to the video device, the [jsxapi library](https://github.com/cisco-ce/jsxapi) is used to establish a websocket connection through which, the device name, airplay/miracast support and calendar information is passed. In order establish this connection, the following steps are required on the video device. The following demonstrates the xAPI commands to set this up, however the same can be achived via the devices WebGUI or Control Hub.
+In order to have the browser communicate to the video device, the [jsxapi library](https://github.com/cisco-ce/jsxapi) is used to establish a websocket connection through which, the device name, airplay/miracast support and calendar information is passed. In order establish this connection, the following steps are required on the video device. I will use the xAPI commands to set this up, however the same can be achived via the devices WebGUI or Control Hub.
 1. A local user account needs to be created with Integrator and User permissions. ```xCommand UserManagement User Add Role: Integrator Role: User Username: "dynamicWallpaper" Passphrase: "C!sco123"```
-2. The video devices webview are allowed to trust the video device's self-signed certificate. This requires the AllowDeviceCertificate value to be set to True. ```xConfiguration WebEngine Features AllowDeviceCertificate: True```
+2. The video devices webview needs to trust the video device's self-signed certificate. This requires the AllowDeviceCertificate value to be set to True. ```xConfiguration WebEngine Features AllowDeviceCertificate: True```
 
 ## Examples
 After applying the two commands in the previous section, perform the following xapi command to launch the dynamic wallpaper. Ensure you replace the username, password and IP address fields to reflect your video device details ```xcommand UserInterface WebView Display url: https://www.employees.org/~dhenwood/video/obtp.html?username=dynamicWallpaper&password=C!sco123&ipAddress=192.168.0.10&video=Oregon```
