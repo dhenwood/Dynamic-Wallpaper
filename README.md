@@ -33,7 +33,9 @@ Their are currently a few videos to select from so from the above command simply
 * LakeFire
 * Magic
 * Rollercoaster
-* Any MP4 file online - eg, http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+* A MP4 URL online - eg,
+  * Big Buck Bunny: http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+  * Medical Example: https://videos.pexels.com/video-files/5752729/5752729-uhd_2560_1440_30fps.mp4
 
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
 
