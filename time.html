@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://unpkg.com/jsxapi@5.1.1/dist/jsxapi.js"></script>
+
+<style>
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+.top-left {
+  position: absolute;
+  font-family: "Arial";
+  font-weight: bold;
+  top: 8px;
+  left: 16px;
+  font-size: 25px;
+}
+
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 20px;
+  vertical-align:middle;
+}
+
+.top-right-images {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 4px; /* space between images */
+  padding: 10px; /* optional, for a little space from the edges */
+}
+
+.top-right-images img {
+  height: 50px; /* or whatever size you want */
+  width: auto;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 80px;
+  font-family: "Arial";
+  transform: translate(-50%, -50%);
+}
+
+.lower-center {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  font-size: 30px;
+  font-family: "Arial";
+  transform: translate(-50%, -50%);
+}
+
+
+body {
+  background-color: black;
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="top-left"><span id="deviceName"></div>
+  <div class="top-right-images"><span id="topRightPosition"></span></div>
+  <div class="centered"><span id="time"></span></div>
+  <div class="lower-center"><span id="date"></span></div>
+  <div class="bottom-right"><span id="messageHelper"></span></div>
+
+  <video id="videoFileName" width="100%" height="100%" loop="true" autoplay="autoplay" muted>
+    <source type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<script type="text/javascript">
+    var videoFileElement = document.getElementById('videoFileName');
+    var timeElement = document.getElementById('time');
+    var dateElement = document.getElementById('date');
+    var deviceNameElement = document.getElementById('deviceName');
+    var topRightPositionElement = document.getElementById('topRightPosition');
+    var messageHelperElement = document.getElementById('messageHelper');
+
+    messageHelperElement.textContent = "Loading video..."
+
+    window.onload = (event) => {
+      console.log("page is fully loaded");
+        messageHelperElement.textContent = ""
+    };
+
+
+    function clock() {
+      const nameOfMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      const nameOfDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+      const date = new Date();
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;      
+      timeElement.textContent = strTime
+
+      var month = date.getMonth();
+      var dayOfWeek = date.getDay();
+      var day = date.getDate();
+      var strDate = nameOfDay[dayOfWeek] + ', ' + nameOfMonth[month] + ' ' + day;
+      dateElement.textContent = strDate;
+
+    }
+
+    function connectToDevice() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const username = urlParams.get('username');
+        const password = urlParams.get('password');
+        const ipAddress = urlParams.get('ipAddress')
+
+        const video = urlParams.get('video');
+        if(video.startsWith("http")){
+            videoFileElement.setAttribute("src", video);
+        }else{
+            videoFileElement.setAttribute("src", "./videos/" + video + ".mp4");
+        }
+
+        jsxapi
+          .connect(ipAddress, {
+            username: username,
+            password: password,
+          })
+          .on("error", (error) => {
+            // Handle connection issues and restore websocket if closed
+            if (error == "WebSocket closed unexpectedly" && connected) {
+              // Only attempt to reconnect if previously connected
+              console.log("WebSocket closed, reconnecting");
+              connected = false;
+              setTimeout(connectToDevice, 1000);
+            } else {
+              if (error == undefined && !connected) {
+                // Display error when failed to create initial connection
+                console.log("Error Connecting to Device");
+              } else if (error == undefined && connected) {
+                console.log(
+                  "JSXAPI Error [undefined] - taking no action until the WebSocket has been closed"
+                );
+              } else {
+                console.error("Error", JSON.stringify(error));
+                status.innerHTML = `Error [${error}]`;
+              }
+            }
+          })
+          .on("ready", async (xapi) => {
+              // Once connected, check for connected In-Room Navigators and then
+              // get initial sensor values and subscribe to changes there after
+
+              connected = true;
+              console.log(`Connected to Device`);
+              const broadcastName = await xapi.Status.SystemUnit.BroadcastName.get()
+              deviceNameElement.textContent = (broadcastName == "" ) ? 'Unknown' : broadcastName;
+
+              // Get airplay and miracast status
+                  xapi.Status.Video.Input.AirPlay.Status.get()
+                      .then ((airplayStatus) => {
+                          xapi.Status.Video.Input.Miracast.Status.get()
+                              .then ((miracastStatus) => {
+                                  displayAirplayMiracast(airplayStatus, miracastStatus)
+                              })
+                      })
+           })
+    }
+
+    function displayAirplayMiracast(airplayStatus, miracastStatus){
+        console.log("airplay: " + airplayStatus)
+        console.log("miracast: " + miracastStatus)
+        //topRightPositionElement
+        if (airplayStatus == "Active" && miracastStatus == "Started"){
+            topRightPositionElement.innerHTML = "<img src='./images/airplayIcon.png' alt='Airplay'><img src='./images/miracastIcon.png' alt='Miracast'>"
+        }else if (airplayStatus == "Active"){
+            topRightPositionElement.innerHTML = "<img src='./images/airplayIcon.png' alt='Airplay'>"
+        }else if (miracastStatus == "Started"){
+            topRightPositionElement.innerHTML = "<img src='./images/miracastIcon.png' alt='Miracast'>"
+        }
+    }
+
+    setInterval(clock, 1000);
+    connectToDevice();
+</script>
+</body>
+</html> 
+
