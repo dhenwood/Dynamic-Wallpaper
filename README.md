@@ -28,8 +28,8 @@ I will use the xAPI commands to set this up, however the same can be achived via
 3. After applying the two commands above, perform the following xapi command to launch the dynamic wallpaper. Ensure you **replace the username, password** (to what you set in step 1) and **IP address** fields to reflect your video device details. ```xcommand UserInterface WebView Display url: https://www.employees.org/~dhenwood/video/obtp.html?username=dynamicWallpaper&password=C!sco123&ipAddress=192.168.0.10&video=Oregon```
 
 Their are currently a few videos to select from so from the above command simply replace the "video" variable (at the end) from Oregon, to one of the following:
-* Oregon
-* Utah
+* Oregon (due to file size, can take up to a minute to load)
+* Utah (due to file size, can take up to a minute to load)
 * LakeFire
 * Magic
 * Rollercoaster
