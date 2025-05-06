@@ -166,7 +166,7 @@ body {
 
 <div class="container">
   <div class="top-left"><span id="deviceName"></div>
-  <div class="obtp-image"><span id="calendarImage"><img src="CalendarIcon.png" alt="Calendar"></span></div>
+  <div class="obtp-image"><span id="calendarImage"><img src="./images/CalendarIcon.png" alt="Calendar"></span></div>
   <div class="obtp-idle-title"><span id="calendarTitle">Room available all day</span></div>
   <div class="obtp-idle-subtitle"><span id="calendarSubtitle">Use the touch panel to book the room</span></div>
   <div class="centered"><span id="time"></span></div>
@@ -234,7 +234,11 @@ body {
         const ipAddress = urlParams.get('ipAddress');
 
         const video = urlParams.get('video');
-        videoFileElement.setAttribute("src", video + ".mp4");
+        if(video.startsWith("http")){
+            videoFileElement.setAttribute("src", video);
+        }else{
+            videoFileElement.setAttribute("src", "./videos/" + video + ".mp4");
+        }
 
         jsxapi
             .connect(ipAddress, {
@@ -416,11 +420,11 @@ body {
         console.log("miracast: " + miracastStatus)
         //topRightPositionElement
         if (airplayStatus == "Active" && miracastStatus == "Started"){
-            topRightPositionElement.innerHTML = "<img src='airplayIcon.png' alt='Airplay'><img src='miracastIcon.png' alt='Miracast'>"
+            topRightPositionElement.innerHTML = "<img src='./images/airplayIcon.png' alt='Airplay'><img src='./images/miracastIcon.png' alt='Miracast'>"
         }else if (airplayStatus == "Active"){
-            topRightPositionElement.innerHTML = "<img src='airplayIcon.png' alt='Airplay'>"
+            topRightPositionElement.innerHTML = "<img src='./images/airplayIcon.png' alt='Airplay'>"
         }else if (miracastStatus == "Started"){
-            topRightPositionElement.innerHTML = "<img src='miracastIcon.png' alt='Miracast'>"
+            topRightPositionElement.innerHTML = "<img src='./images/miracastIcon.png' alt='Miracast'>"
         }
     }
 
