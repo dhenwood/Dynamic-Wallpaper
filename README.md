@@ -19,7 +19,7 @@ A short video of this in action can be found on [Vidcast](https://app.vidcast.io
 In order to have the browser communicate to the video device, the [jsxapi library](https://github.com/cisco-ce/jsxapi) is used to establish a websocket connection through which, the device name, airplay/miracast support and calendar information is passed. In order establish this connection, the following steps are required on the video device. 
 
 ### Option 1 (simple macro)
-The following Github repo contains the steps to install a macro to allow a user to turn on or off as well as different video options. https://github.com/dhenwood/Dynamic-Wallpaper-Simple-Setup
+The following article contains the steps to install a macro to allow a user to turn on or off as well as different video options. https://github.com/dhenwood/Dynamic-Wallpaper-Simple-Setup
 
 ### Option 2 (command line)
 I will use the xAPI commands to set this up, however the same can be achived via the devices WebGUI or Control Hub.
