@@ -16,7 +16,7 @@ The capability to display a looped video is not a native RoomOS feature, but rat
 A short video of this in action can be found on [Vidcast](https://app.vidcast.io/share/23e1360f-2ef6-4fc5-a89c-9f4b5514f3e3)
 
 ## Setup
-In order to have the browser communicate to the video device, the [jsxapi library](https://github.com/cisco-ce/jsxapi) is used to establish a websocket connection through which, the device name, airplay/miracast support and calendar information is passed. In order establish this connection, the following steps are required on the video device. 
+In order to have the browser communicate to the video device, the [jsxapi library](https://github.com/cisco-ce/jsxapi) is used to establish a websocket connection through which, the device name, airplay/miracast support and calendar information is passed. In order establish this connection, one of the following steps are required on the video device. 
 
 ### Option 1 (simple macro)
 The following article contains the steps to install a macro to allow a user to turn on or off as well as different video options. The pre-steps outlined in Option 2 are all automated if you choose this option. https://github.com/dhenwood/Dynamic-Wallpaper-Simple-Setup
@@ -38,4 +38,4 @@ Their are currently a few videos to select from so from the above command simply
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
 
 ### Option 3 (customized videos)
-Download the obtp.html file and run it on a web server. Ensure the video files you wish to use are available. You will still need to perform Option 2 above to have the video device launch the web page, but with your own web servers address.
+Download the obtp.html and time.html file and run it on a web server. Ensure the video files you wish to use are available and are installed in the /video folder. You will still need to perform Option 2 above to have the video device launch the web page, but with your own web servers address.
