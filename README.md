@@ -24,7 +24,7 @@ The following Github repo contains the steps to install a macro to allow a user 
 ### Option 2 (command line)
 I will use the xAPI commands to set this up, however the same can be achived via the devices WebGUI or Control Hub.
 1. A local user account needs to be created with only the User permissions required. You will likely want to replace the username and password to something else for security reasons. ```xCommand UserManagement User Add Role: Integrator Role: User Username: "dynamicWallpaper" Passphrase: "C!sco123"```
-2. The video devices webview needs to trust the video device's self-signed certificate. This requires the AllowDeviceCertificate value to be set to True. ```xConfiguration WebEngine Features AllowDeviceCertificate: True``` Once this command has been applied, a **reboot of the device** is needed.
+2. The video devices webview needs to trust the video device's self-signed certificate. This requires the AllowDeviceCertificate value to be set to True. ```xConfiguration WebEngine Features AllowDeviceCertificate: True```
 3. After applying the two commands above, perform the following xapi command to launch the dynamic wallpaper. Ensure you replace the username, password (to what you set in step 1) and IP address fields to reflect your video device details. ```xcommand UserInterface WebView Display url: https://www.employees.org/~dhenwood/video/obtp.html?username=dynamicWallpaper&password=C!sco123&ipAddress=192.168.0.10&video=Oregon```
 
 Their are currently a few videos to select from, so by replacing the above command from video=Oregon, to one of the following, you will get different videos.
@@ -32,6 +32,7 @@ Their are currently a few videos to select from, so by replacing the above comma
 * Utah
 * LakeFire
 * Magic
+* Rollercoaster
 * Any MP4 file online - remove the .mp4 extension in the URL (eg, http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny)
 
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
