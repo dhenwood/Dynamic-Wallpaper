@@ -13,7 +13,7 @@ Turn your Cisco video device wallpaper from a static image to a rolling video.
 The capability to display a looped video is not a native RoomOS feature, but rather leverages the embedded Chromium browser in the current Cisco video device portfolio. Note: whilst this capability will work on all Cisco video devices, it is better suited to the room series as the touch devices (Desk and Board series) require interactions on the screen.
 
 ## Video
-A short video of this in action can be found on [Vidcast](https://app.vidcast.io/share/23e1360f-2ef6-4fc5-a89c-9f4b5514f3e3)
+A video of how this capabilitiy is achieved can be found on [Vidcast](https://app.vidcast.io/share/23e1360f-2ef6-4fc5-a89c-9f4b5514f3e3)
 
 ## Setup
 In order to have the browser communicate to the video device, the [jsxapi library](https://github.com/cisco-ce/jsxapi) is used to establish a websocket connection through which, the device name, airplay/miracast support and calendar information is passed. In order establish this connection, one of the following steps are required on the video device. 
