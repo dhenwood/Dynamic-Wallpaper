@@ -34,9 +34,9 @@ Their are currently a few videos to select from so from the above command simply
 * Magic
 * Rollercoaster
 * A MP4 URL online - eg,
-  * Medical Example: https://videos.pexels.com/video-files/5752729/5752729-uhd_2560_1440_30fps.mp4
-  * Northern Lights: https://videos.pexels.com/video-files/852435/852435-hd_1920_1080_30fps.mp4
-  * Big Buck Bunny: http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+  * https://videos.pexels.com/video-files/5752729/5752729-uhd_2560_1440_30fps.mp4 (Medical Example)
+  * https://videos.pexels.com/video-files/852435/852435-hd_1920_1080_30fps.mp4 (Northern Lights)
+  * http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4 (Big Buck Bunny)
 
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
 
