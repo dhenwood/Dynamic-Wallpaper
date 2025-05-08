@@ -41,4 +41,4 @@ Their are currently a few videos to select from so from the above command simply
 To stop the Dynamic Wallpaper, you can perform the following xapi command ```xcommand WebEngine DeleteStorage ```
 
 ### Option 3 (customized videos)
-Clone this repo on your web server. Ensure the video files you wish to use are available and are installed in the /videos folder. You will still need to perform Option 2 above to have the video device launch the web page, but with your own web servers address.
+Clone this repo on your web server. Ensure the video files you wish to use are available and are installed in the /videos folder. You will still need to perform Option 2 above to have the video device launch the web page, but with your own web servers address and replace the video parameter to the video file name you used (excluding the mp4 file extension).
